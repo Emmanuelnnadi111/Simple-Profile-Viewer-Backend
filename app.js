@@ -15,6 +15,9 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
+app.get("/", (req, res) => {
+  res.send("Backend is live!");
+});
 
 app.get('/posts', async (req, res) => {
   const storedPosts = await getStoredPosts();
@@ -40,4 +43,7 @@ app.post('/posts', async (req, res) => {
   res.status(201).json({ message: 'Stored new post.', post: newPost });
 });
 
-app.listen(8080);
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
