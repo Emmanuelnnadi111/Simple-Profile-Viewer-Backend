@@ -19,19 +19,11 @@ app.get("/", (req, res) => {
   res.send("Backend is live!");
 });
 
-app.post("/posts", async (req, res) => {
-  console.log("🟢 New post received:", req.body); // 👈 This line
-  const existingPosts = await getStoredPosts();
-  const postData = req.body;
-  const newPost = {
-    ...postData,
-    id: Math.random().toString(),
-  };
-  const updatedPosts = [newPost, ...existingPosts];
-  await storePosts(updatedPosts);
-  res.status(201).json({ message: "Stored new post.", post: newPost });
+app.get('/posts', async (req, res) => {
+  const storedPosts = await getStoredPosts();
+  // await new Promise((resolve, reject) => setTimeout(() => resolve(), 1500));
+  res.json({ posts: storedPosts });
 });
-
 
 app.get('/posts/:id', async (req, res) => {
   const storedPosts = await getStoredPosts();
